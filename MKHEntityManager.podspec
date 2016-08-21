@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
 
   s.name                      = 'MKHEntityManager'
   s.version                   = '1.0.0'
-  s.summary                   = 'Lightweight async operations controller.'
+  s.summary                   = 'Lightweight model objects manager that helps maintain consistency.'
   s.homepage                  = 'https://github.com/maximkhatskevich/#{s.name}'
 
   s.license                   = { :type => 'MIT', :file => 'LICENSE' }
