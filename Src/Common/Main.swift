@@ -23,12 +23,12 @@ protocol IdentifiableEntity
 }
 //===
 
-fileprivate
+private
 func getGlobalId<T: IdentifiableEntity>(for entity: T) -> GlobalEntityId
 {
     // system-wide unique key
     
-    return "\(String(reflecting: type(of: entity)))::\(entity.enm_entityId)"
+    return "\(String(reflecting: entity.dynamicType))::\(entity.enm_entityId)"
 }
 
 //===
@@ -76,7 +76,7 @@ enum EntityManager
     
     public
     static
-    func wrap<T: Entity>(_ entity: T) -> EntityWrapper<T>
+    func wrap<T: Entity>(entity: T) -> EntityWrapper<T>
     {
         // cleanup first
         
@@ -139,7 +139,7 @@ class EntityWrapper<T: Entity>: Entity
     
     //===
     
-    fileprivate
+    private
     init(_ entity: T)
     {
         self.entity = entity

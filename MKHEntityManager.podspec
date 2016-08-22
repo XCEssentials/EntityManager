@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name                      = 'MKHEntityManager'
-  s.version                   = '1.0.0'
+  s.version                   = '1.0.1'
   s.summary                   = 'Lightweight model objects manager that helps maintain consistency.'
   s.homepage                  = 'https://github.com/maximkhatskevich/#{s.name}'
 
