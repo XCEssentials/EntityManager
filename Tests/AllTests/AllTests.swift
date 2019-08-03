@@ -7,9 +7,10 @@
 //
 
 import XCTest
-import MKHEntityManager
 
-//===
+import XCEEntityManager
+
+//---
 
 class Main: XCTestCase
 {
@@ -18,7 +19,7 @@ class Main: XCTestCase
         let enm_entityId: EntityId
     }
     
-    //===
+    //---
     
     func testEntityWrapperReusability()
     {

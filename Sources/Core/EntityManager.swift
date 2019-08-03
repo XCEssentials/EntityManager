@@ -9,29 +9,29 @@
 public
 typealias GlobalEntityId = String
 
-//===
+//---
 
 public
 typealias EntityId = String
 
-//===
+//---
 
 public
 protocol IdentifiableEntity
 {
     var enm_entityId: EntityId { get }
 }
-//===
+//---
 
 private
 func getGlobalId<T: IdentifiableEntity>(for entity: T) -> GlobalEntityId
 {
     // system-wide unique key
     
-    return "\(String(reflecting: entity.dynamicType))::\(entity.enm_entityId)"
+    return "\(String(reflecting: type(of: entity)))::\(entity.enm_entityId)"
 }
 
-//===
+//---
 
 public
 protocol Entity: IdentifiableEntity
@@ -48,7 +48,7 @@ extension Entity
     }
 }
 
-//===
+//---
 
 public
 struct Weak<T: AnyObject>
@@ -63,7 +63,7 @@ struct Weak<T: AnyObject>
     }
 }
 
-//===
+//---
 
 public
 enum EntityManager
@@ -72,29 +72,29 @@ enum EntityManager
     static
     var wrappers: [Weak<AnyObject>] = []
     
-    //===
+    //---
     
     public
     static
-    func wrap<T: Entity>(entity: T) -> EntityWrapper<T>
+    func wrap<T: Entity>(_ entity: T) -> EntityWrapper<T>
     {
         // cleanup first
         
         wrappers = wrappers.filter({ $0.value != nil })
         
-        //===
+        //---
         
         if
             let existingWrapper =
                 wrappers
-                    .flatMap({ $0.value as? Entity })
+                    .compactMap({ $0.value as? Entity })
                     .filter({ $0.enm_globalId == entity.enm_globalId })
-                    .flatMap({ $0 as? EntityWrapper<T>})
+                    .compactMap({ $0 as? EntityWrapper<T>})
                     .first
         {
             existingWrapper.entity = entity // update entity
             
-            //===
+            //---
             
             return existingWrapper
         }
@@ -102,19 +102,20 @@ enum EntityManager
         {
             let newWrapper = EntityWrapper(entity)
             
-            //===
+            //---
             
             wrappers.append(
-                Weak(newWrapper))
+                Weak(newWrapper)
+            )
             
-            //===
+            //---
             
             return newWrapper
         }
     }
 }
 
-//===
+//---
 
 public
 final
@@ -137,9 +138,9 @@ class EntityWrapper<T: Entity>: Entity
     public
     var entity: T
     
-    //===
+    //---
     
-    private
+    fileprivate
     init(_ entity: T)
     {
         self.entity = entity
